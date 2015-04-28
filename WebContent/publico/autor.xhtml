@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+	
+	
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Cadastro de autor</title>
+</h:head>
+<h:body>
+	<h1>Cadatro de autor</h1>
+	<hr/>
+	<h:form id="cadastro">
+		<h:dataTable value="#{autorBean.lista}" var="autor" rules="rows">
+			<h:column>
+				<h:inputText id="nome" value="#{autor.nome}" size="50"/>
+			</h:column>
+			<h:column>
+				<h:commandLink action="#{autorBean.novo}">Novo
+					<f:setPropertyActionListener target="#{autorBean.autor}" value="#{autor}"/>
+					<f:ajax execute="@form" render=":cadastro"/>
+				</h:commandLink>
+			</h:column> 
+			<h:column>
+				<h:commandLink action="#{autorBean.exclui}">Excluir
+					<f:setPropertyActionListener target="#{autorBean.autor}" value="#{autor}"/>
+					<f:ajax execute="@form" render=":cadastro"/>
+				</h:commandLink>
+			</h:column> 
+		</h:dataTable>
+		<h:commandButton action="#{autorBean.salva}" value="Salvar">
+			<f:ajax execute="@form" render=":cadastro"/>
+		</h:commandButton>
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+ 	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+		
+<h:head>
+<style>   
+   .t1 { width:350px; }   
+   .t2 { width:50px; }   
+</style>  
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Pesquisa referências bibliográficas</title>
+</h:head>
+<h:body>
+	<h2>Pesquisa referências bibliográficas</h2>
+
+	<h:form id="parametros">
+		<h:commandLink value="Ir para cadastro" action="#{obraBean.ir}"/>
+		<hr/>
+		<h:panelGrid columns="4">
+
+			<h:outputLabel value="Título " for="titulo"/>
+			<h:inputText id="titulo" label="Título" size="50" value="#{obraBeanFiltro.titulo}"/>
+
+			<h:outputLabel value="Autor " for="autor"/>
+			<h:inputText id="autor" label="Autor" size="50" value="#{obraBeanFiltro.autor}"/>
+
+			<h:outputLabel value="Palavra-chave " for="palavrasChave"/>
+			<h:inputText id="palavrasChave" label="Palavras-chave" size="50" value="#{obraBeanFiltro.palavrasChave}"/>
+
+			<h:outputLabel value="Sinopse " for="sinopse"/>
+			<h:inputText id="sinopse" label="Sinopse" size="50" value="#{obraBeanFiltro.sinopse}"/>
+
+			<h:outputLabel value="A partir do ano " for="anoInicial"/>
+			<h:inputText id="anoInicial" label="A patir do ano" size="5" value="#{obraBeanFiltro.anoInicial}"/>
+
+			<h:outputLabel value="Até o ano " for="anoFinal"/>
+			<h:inputText id="anoFinal" label="Até o ano" size="5" value="#{obraBeanFiltro.anoFinal}"/>
+
+			<h:commandButton value="Pesquisar" actionListener="#{obraBeanFiltro.pesquisa}">
+				<f:ajax execute="@form" render=":resultado"/>
+			</h:commandButton>
+			<h:commandButton value="Limpar filtros" actionListener="#{obraBeanFiltro.limparFiltros}">
+				<f:ajax execute="@form" render=":parametros"/>
+			</h:commandButton>			
+		</h:panelGrid>
+		
+	</h:form>
+	<br/>
+	<h:form id="resultado">
+		<h:dataTable value="#{obraBeanFiltro.lista}" var="obra" rules="all" frame="box"
+			headerClass="header" columnClasses="t2, t1, t1, t2">
+			<h:column>
+			 	<f:facet name="header">Imagem</f:facet>			
+				<h:graphicImage id="imagem"
+					url="#{obra.caminhoImagem}"
+					rendered="#{obra.caminhoImagem != null}" width="100" session="true"/>
+			</h:column>
+			<h:column>
+			 	<f:facet name="header">Titulo</f:facet>			
+				<h:outputText id="titulo" value="#{obra.titulo}" border="2"/>
+			</h:column>
+			<h:column>
+			 	<f:facet name="header">Autor</f:facet>			
+				<h:outputText id="autor" value="#{obra.autor}" border="1"/>
+			</h:column>
+			<h:column>
+			 	<f:facet name="header">Opção</f:facet>			
+				<h:commandLink action="#{obraBeanFiltro.abrir}">Editar   
+					<f:setPropertyActionListener target="#{obraBean.obra}" value="#{obra}"/>
+				</h:commandLink>
+			</h:column> 
+		</h:dataTable>
+	</h:form>
+</h:body>
+</html>
